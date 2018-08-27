@@ -1,0 +1,27 @@
+version: '3'
+
+volumes:
+  postgres_data_local: {}
+  postgres_backup_local: {}
+  pgadmindata: {}
+
+services:
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backups
+    ports:
+      - "5432:5432"
+    env_file:
+      - postgres/.env
+
+  pgadmin:
+    image: fenglc/pgadmin4
+    ports:
+      - "5050:5050"
+    volumes:
+      - "pgadmindata:/var/lib/pgadmin4"
+    env_file:
+      - pgadmin/.env
+    network_mode: "host"
